@@ -1,0 +1,20 @@
+{
+  "name": "geocraft",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@turf/boolean-within": "^6.0.1",
+    "@turf/helpers": "^6.1.3",
+    "mapbox-gl": "^0.45.0-beta.1",
+    "react": "^16.3.2",
+    "react-dom": "^16.3.2",
+    "react-mapbox-gl": "^3.8.0",
+    "react-scripts": "1.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}
