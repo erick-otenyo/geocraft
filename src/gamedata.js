@@ -10,8 +10,8 @@ export const targetArea = {
     ]
   ]
 };
- 
+
 export const initialPoint = {
-    "type": "Point",
-    "coordinates": [37.0105, -1.0891]
+  type: "Point",
+  coordinates: [37.01188266277313, -1.0986244937921694]
 };

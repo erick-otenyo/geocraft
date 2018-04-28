@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import ReactMapboxGl, { Layer, Source } from "react-mapbox-gl";
 
 import { initialPoint, targetArea } from "./gamedata";
+import { pointWithin } from "./utils";
+import DistanceLabel from "./DistanceLabel";
 
 const Map = ReactMapboxGl({
   accessToken:
@@ -36,9 +38,23 @@ class App extends Component {
       "icon-rotate",
       direction * (180 / Math.PI)
     );
+    if (!this.state.won) {
+      const { isWithin, distance } = pointWithin(point, targetArea);
+      this.handleIsWithin(isWithin, distance);
+    }
     this.setState({ point: point });
     this.map.setCenter(point.coordinates);
   };
+
+  handleIsWithin = (isWithin, distance) => {
+    if (isWithin) {
+      this.setState({ won: true, distance: 0 });
+      console.log("won");
+    } else {
+      this.setState({ distance: distance });
+    }
+  };
+
   handleKeyDown = e => {
     // left arrow key
     if (e.which === 37) {
@@ -99,6 +115,10 @@ class App extends Component {
           id="drone"
           geoJsonSource={{ type: "geojson", data: this.state.point }}
         />
+        <Source
+          id="target-area"
+          geoJsonSource={{ type: "geojson", data: targetArea }}
+        />
         <Layer
           id="drone-glow-strong"
           type="circle"
@@ -128,6 +148,20 @@ class App extends Component {
             "icon-rotation-alignment": "map"
           }}
         />
+        {this.state.distance && (
+          <DistanceLabel distance={this.state.distance} />
+        )}
+        {this.state.distance &&
+          this.state.distance < 0.2 && (
+            <Layer
+              id="target-area"
+              type="fill"
+              sourceId="target-area"
+              paint={{
+                "fill-color": "green"
+              }}
+            />
+          )}
       </Map>
     );
   }
