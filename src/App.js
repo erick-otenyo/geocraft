@@ -171,7 +171,7 @@ class App extends Component {
       setTimeout(this.slowDown, 10);
     }
   };
-  randomTargets = (number = 1) => {
+  randomTargets = (number = 3) => {
     // get random points within our AOI
     const points = randomPoint(number, { bbox: AOI });
     // generate circle from the random points
