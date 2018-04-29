@@ -14,7 +14,6 @@ const DistanceLabel = ({ distance }) => {
         position: "absolute",
         zIndex: 10,
         display: "flex",
-        flexDirection: "column",
         boxShadow: "0px 1px 4px rgba(0, 0, 0, .3)",
         border: "1px solid rgba(0, 0, 0, 0.1)",
         top: 10,
@@ -24,8 +23,19 @@ const DistanceLabel = ({ distance }) => {
         background: "#fff"
       }}
     >
-      <div style={{ padding: 10 }}>
-        You are about {formattedDistance} away !
+      <div style={{ padding: 10, textAlign: "center" }}>
+        <h2> You are about</h2>
+        <h3
+          style={{
+            color: "green",
+            fontSize: 35,
+            margin: 0,
+            marginBottom: 20
+          }}
+        >
+          {formattedDistance}
+        </h3>
+        <h2>away</h2>
       </div>
     </div>
   );
