@@ -68,6 +68,7 @@ class App extends Component {
     this.setState({
       ...initialState,
       mapReady: true,
+      targetAreas: null,
       won: won
     });
   };
