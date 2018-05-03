@@ -11,7 +11,7 @@ import Status from "./GameStatus";
 
 const Map = ReactMapboxGl({
   accessToken:
-    "pk.eyJ1IjoiY3dob25nbnljIiwiYSI6ImNpczF1MXdrdjA4MXcycXA4ZGtyN2x5YXIifQ.3HGyME8tBs6BnljzUVIt4Q"
+    "YOUR_ACCESS_TOKEN_HERE"
 });
 
 // initial app state
