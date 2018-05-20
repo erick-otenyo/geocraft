@@ -187,6 +187,17 @@ class App extends Component {
     this.setState({ targetAreas: circles, activeTarget: activeTarget });
   };
   render() {
+    const {
+      targetAreas,
+      gameStarted,
+      activeTarget,
+      point,
+      mapReady,
+      won,
+      distance,
+      maxSpeed,
+      speed,
+    } = this.state;
     return (
       <Map
         containerStyle={{
@@ -199,21 +210,21 @@ class App extends Component {
         style="mapbox://styles/erickotenyo/cjh1rh8yx0qc42snx4af9lwpz"
         onStyleLoad={this.onStyleLoad}
       >
-        {this.state.targetAreas &&
-          this.state.gameStarted && (
+        {targetAreas &&
+          gameStarted && (
             <Source
               id="target-area"
               geoJsonSource={{
                 type: 'geojson',
-                data: this.state.targetAreas.features[this.state.activeTarget],
+                data: targetAreas.features[activeTarget],
               }}
             />
           )}
-        {this.state.point && (
+        {point && (
           <div>
             <Source
               id="drone"
-              geoJsonSource={{ type: 'geojson', data: this.state.point }}
+              geoJsonSource={{ type: 'geojson', data: point }}
             />
             <Layer
               id="drone-glow"
@@ -247,31 +258,24 @@ class App extends Component {
           </div>
         )}
 
-        {!this.state.gameStarted &&
-          this.state.mapReady && (
+        {!gameStarted &&
+          mapReady && (
             <Instructions onStart={this.startGame} won={this.state.won} />
           )}
-        {this.state.distance && (
-          <DistanceLabel distance={this.state.distance} />
-        )}
-        {this.state.targetAreas && <Status targets={this.state.targetAreas} />}
-        {this.state.won && <Status won />}
+        {distance && <DistanceLabel distance={distance} />}
+        {targetAreas && <Status targets={targetAreas} />}
+        {won && <Status won />}
 
-        {this.state.gameStarted &&
-          this.state.mapReady && (
-            <Speedometer
-              maxSpeed={this.state.maxSpeed}
-              currentSpeed={this.state.speed}
-            />
-          )}
+        {gameStarted &&
+          mapReady && <Speedometer maxSpeed={maxSpeed} currentSpeed={speed} />}
 
-        {this.state.gameStarted && (
+        {gameStarted && (
           <Options onReset={this.resetGame} onCancel={this.cancelGame} />
         )}
 
-        {this.state.targetAreas &&
-          this.state.distance &&
-          this.state.distance < 0.2 && (
+        {targetAreas &&
+          distance &&
+          distance < 0.2 && (
             <div>
               <Layer
                 id="target-area"
