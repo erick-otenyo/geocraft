@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 const DistanceLabel = ({ distance }) => {
   let formattedDistance;
@@ -11,31 +11,42 @@ const DistanceLabel = ({ distance }) => {
   return (
     <div
       style={{
-        position: "absolute",
+        position: 'absolute',
         zIndex: 10,
-        display: "flex",
-        boxShadow: "0px 1px 4px rgba(0, 0, 0, .3)",
-        border: "1px solid rgba(0, 0, 0, 0.1)",
+        display: 'flex',
+        boxShadow: '0px 0px 10px #9ecaed',
+        border: '3px solid #9ecaed',
+        borderRadius: 5,
         top: 10,
         left: 10,
-        bottom: "auto",
-        right: "auto",
-        background: "#fff"
+        bottom: 'auto',
+        right: 'auto',
+        background: '#172236',
       }}
     >
-      <div style={{ padding: 10, textAlign: "center" }}>
-        <h2> You are about</h2>
+      <div
+        style={{ padding: 10, textAlign: 'center', height: 120, width: 120 }}
+      >
+        <h2
+          style={{
+            color: '#fff',
+          }}
+        >
+          You are about
+        </h2>
         <h3
           style={{
-            color: "green",
+            color: '#fff',
             fontSize: 35,
+            textShadow:
+              '0px 0px 2px rgba(255,255,255,1) , 0px 0px 5px rgba(255,255,255,1) , 0px 0px 10px rgba(255,255,255,1) , 0px 0px 15px #00ffff , 0px 0px 25px #00ffff , 0px 0px 35px #00ffff , 0px 0px 45px #00ffff',
             margin: 0,
-            marginBottom: 20
+            marginBottom: 20,
           }}
         >
           {formattedDistance}
         </h3>
-        <h2>away</h2>
+        <h2 style={{ color: '#fff' }}>away</h2>
       </div>
     </div>
   );
