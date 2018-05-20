@@ -1,17 +1,18 @@
-import React, { Component } from "react";
-import ReactMapboxGl, { Layer, Source } from "react-mapbox-gl";
-import { randomPoint, circle as makeCircle } from "@turf/turf";
+import React, { Component } from 'react';
+import ReactMapboxGl, { Layer, Source } from 'react-mapbox-gl';
+import { randomPoint, circle as makeCircle } from '@turf/turf';
 
-import { initialPoint, AOI } from "./gamedata";
-import { pointWithin, getRandomTarget } from "./utils";
-import DistanceLabel from "./DistanceLabel";
-import Instructions from "./GameInstructions";
-import Options from "./GameOptions";
-import Status from "./GameStatus";
+import { initialPoint, AOI } from './gamedata';
+import { pointWithin, getRandomTarget } from './utils';
+import DistanceLabel from './DistanceLabel';
+import Instructions from './GameInstructions';
+import Options from './GameOptions';
+import Status from './GameStatus';
+import Speedometer from './Speedometer';
+import { ACCESS_TOKEN } from './config';
 
 const Map = ReactMapboxGl({
-  accessToken:
-    "YOUR_ACCESS_TOKEN_HERE"
+  accessToken: ACCESS_TOKEN,
 });
 
 // initial app state
@@ -23,7 +24,7 @@ const initialState = {
   direction: 0,
   activeTarget: null,
   speed: 0,
-  maxSpeed: 0.035
+  maxSpeed: 200,
 };
 
 class App extends Component {
@@ -39,8 +40,8 @@ class App extends Component {
       // set target areas
       this.randomTargets();
       // add event listners for arrow keys
-      document.body.addEventListener("keydown", this.handleKeyDown, true);
-      document.body.addEventListener("keyup", this.handleKeyUp, true);
+      document.body.addEventListener('keydown', this.handleKeyDown, true);
+      document.body.addEventListener('keyup', this.handleKeyUp, true);
       // game started !
       this.setState({ gameStarted: true, taskId: taskId, won: false });
     }
@@ -51,7 +52,7 @@ class App extends Component {
       ...initialState,
       mapReady: true,
       gameStarted: true,
-      won: false
+      won: false,
     });
     // reset randomTargetAreas
     this.map.setCenter(initialPoint.coordinates);
@@ -61,15 +62,15 @@ class App extends Component {
     // stop position updates
     window.clearInterval(this.state.taskId);
     // remove event listeners
-    document.body.removeEventListener("keydown", this.handleKeyDown, true);
-    document.body.removeEventListener("keyup", this.handleKeyUp, true);
+    document.body.removeEventListener('keydown', this.handleKeyDown, true);
+    document.body.removeEventListener('keyup', this.handleKeyUp, true);
     // set map center
     const { won } = this.state;
     this.setState({
       ...initialState,
       mapReady: true,
       targetAreas: null,
-      won: won
+      won: won,
     });
   };
   onStyleLoad = e => {
@@ -81,16 +82,16 @@ class App extends Component {
     if (this.state.targetAreas && this.state.targetAreas.features.length) {
       const { speed, direction, point } = this.state;
       // update coordinates
-      point.coordinates[0] += speed * Math.sin(direction) / 100;
-      point.coordinates[1] += speed * Math.cos(direction) / 100;
+      point.coordinates[0] += speed / 10000 * Math.sin(direction) / 100;
+      point.coordinates[1] += speed / 10000 * Math.cos(direction) / 100;
 
       //set our drone to updated position
-      this.map.getSource("drone").setData(point);
+      this.map.getSource('drone').setData(point);
       // rotate the drone icon as necessary
       this.map.setLayoutProperty(
-        "drone",
-        "icon-rotate",
-        direction * (180 / Math.PI)
+        'drone',
+        'icon-rotate',
+        direction * (180 / Math.PI),
       );
       // game not done
 
@@ -142,7 +143,7 @@ class App extends Component {
       let { speed } = this.state;
       // speed limit
       if (speed < this.state.maxSpeed) {
-        speed = Math.min(speed + 0.0001, 0.5);
+        speed = speed + 5;
       }
       this.setState({ speed: speed });
       e.preventDefault();
@@ -151,7 +152,7 @@ class App extends Component {
     if (e.which === 40) {
       let { speed } = this.state;
       if (speed > 0) {
-        speed = Math.max(speed - 0.0001, 0);
+        speed = Math.max(speed - 5, 0);
       }
       this.setState({ speed: speed });
       e.preventDefault();
@@ -165,7 +166,7 @@ class App extends Component {
     }
   };
   slowDown = () => {
-    const speed = Math.max(this.state.speed - 0.0001, 0);
+    const speed = Math.max(this.state.speed - 2, 0);
     // slow down gradually
     if (this.state.speed > 0) {
       this.setState({ speed: speed });
@@ -176,9 +177,9 @@ class App extends Component {
     // get random points within our AOI
     const points = randomPoint(number, { bbox: AOI });
     // generate circle from the random points
-    const circles = { type: "FeatureCollection", features: [] };
+    const circles = { type: 'FeatureCollection', features: [] };
     circles.features = points.features.map(point => {
-      return makeCircle(point, 30, { stpes: 80, units: "metres" });
+      return makeCircle(point, 30, { stpes: 80, units: 'metres' });
     });
     // set 1 random circle feature as active target
     const activeTarget = getRandomTarget(circles.features);
@@ -189,12 +190,13 @@ class App extends Component {
     return (
       <Map
         containerStyle={{
-          height: "100vh",
-          width: "100vw"
+          height: '100vh',
+          width: '100vw',
         }}
         center={initialPoint.coordinates}
         zoom={[17]}
-        style="mapbox://styles/mapbox/streets-v8"
+        // eslint-disable-next-line
+        style="mapbox://styles/erickotenyo/cjh1rh8yx0qc42snx4af9lwpz"
         onStyleLoad={this.onStyleLoad}
       >
         {this.state.targetAreas &&
@@ -202,8 +204,8 @@ class App extends Component {
             <Source
               id="target-area"
               geoJsonSource={{
-                type: "geojson",
-                data: this.state.targetAreas.features[this.state.activeTarget]
+                type: 'geojson',
+                data: this.state.targetAreas.features[this.state.activeTarget],
               }}
             />
           )}
@@ -211,16 +213,16 @@ class App extends Component {
           <div>
             <Source
               id="drone"
-              geoJsonSource={{ type: "geojson", data: this.state.point }}
+              geoJsonSource={{ type: 'geojson', data: this.state.point }}
             />
             <Layer
               id="drone-glow"
               type="circle"
               sourceId="drone"
               paint={{
-                "circle-radius": 40,
-                "circle-color": "grey",
-                "circle-opacity": 0.5
+                'circle-radius': 40,
+                'circle-color': '#9ecaed',
+                'circle-opacity': 0.4,
               }}
             />
             <Layer
@@ -228,9 +230,9 @@ class App extends Component {
               type="circle"
               sourceId="drone"
               paint={{
-                "circle-radius": 18,
-                "circle-color": "#fff",
-                "circle-opacity": 1
+                'circle-radius': 18,
+                'circle-color': '#fff',
+                'circle-opacity': 1,
               }}
             />
             <Layer
@@ -238,8 +240,8 @@ class App extends Component {
               type="symbol"
               sourceId="drone"
               layout={{
-                "icon-image": "airport-15",
-                "icon-rotation-alignment": "map"
+                'icon-image': 'airport-15',
+                'icon-rotation-alignment': 'map',
               }}
             />
           </div>
@@ -255,6 +257,14 @@ class App extends Component {
         {this.state.targetAreas && <Status targets={this.state.targetAreas} />}
         {this.state.won && <Status won />}
 
+        {this.state.gameStarted &&
+          this.state.mapReady && (
+            <Speedometer
+              maxSpeed={this.state.maxSpeed}
+              currentSpeed={this.state.speed}
+            />
+          )}
+
         {this.state.gameStarted && (
           <Options onReset={this.resetGame} onCancel={this.cancelGame} />
         )}
@@ -268,7 +278,7 @@ class App extends Component {
                 type="fill"
                 sourceId="target-area"
                 paint={{
-                  "fill-color": "#fff"
+                  'fill-color': '#fff',
                 }}
               />
               <Layer
@@ -276,9 +286,9 @@ class App extends Component {
                 type="line"
                 sourceId="target-area"
                 paint={{
-                  "line-color": "green",
-                  "line-width": 10,
-                  "line-offset": 5
+                  'line-color': 'green',
+                  'line-width': 10,
+                  'line-offset': 5,
                 }}
               />
             </div>
