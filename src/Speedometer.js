@@ -18,6 +18,7 @@ const Speedometer = ({ maxSpeed, currentSpeed }) => {
         bottom: 'auto',
         right: 10,
         background: '#172236',
+        
       }}
     >
       <div style={{ padding: 10 }}>

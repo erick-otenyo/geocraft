@@ -22,10 +22,12 @@ const DistanceLabel = ({ distance }) => {
         bottom: 'auto',
         right: 'auto',
         background: '#172236',
+        fontFamily: "'Orbitron', sans-serif",
+        fontSize: 10,
       }}
     >
       <div
-        style={{ padding: 10, textAlign: 'center', height: 120, width: 120 }}
+        style={{ padding: 10, textAlign: 'center', height: 130, width: 120 }}
       >
         <h2
           style={{
@@ -37,7 +39,7 @@ const DistanceLabel = ({ distance }) => {
         <h3
           style={{
             color: '#fff',
-            fontSize: 35,
+            fontSize: 30,
             textShadow:
               '0px 0px 2px rgba(255,255,255,1) , 0px 0px 5px rgba(255,255,255,1) , 0px 0px 10px rgba(255,255,255,1) , 0px 0px 15px #00ffff , 0px 0px 25px #00ffff , 0px 0px 35px #00ffff , 0px 0px 45px #00ffff',
             margin: 0,

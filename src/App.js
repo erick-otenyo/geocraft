@@ -278,7 +278,7 @@ class App extends Component {
                 type="fill"
                 sourceId="target-area"
                 paint={{
-                  'fill-color': '#fff',
+                  'fill-color': '#0F1F3D',
                 }}
               />
               <Layer
@@ -286,7 +286,7 @@ class App extends Component {
                 type="line"
                 sourceId="target-area"
                 paint={{
-                  'line-color': 'green',
+                  'line-color': '#ff00de',
                   'line-width': 10,
                   'line-offset': 5,
                 }}

@@ -1,25 +1,27 @@
-import React from "react";
+import React from 'react';
 
 const Instructions = props => {
   return (
     <div
       style={{
-        position: "absolute",
+        position: 'absolute',
         zIndex: 10,
         maxWidth: 350,
-        boxShadow: "0px 1px 4px rgba(0, 0, 0, .3)",
-        border: "1px solid rgba(0, 0, 0, 0.1)",
+        boxShadow: '0px 0px 10px #9ecaed',
+        border: '3px solid #9ecaed',
+        borderRadius: 5,
         top: 10,
         left: 10,
-        bottom: "auto",
-        right: "auto",
-        background: "#fff"
+        bottom: 'auto',
+        right: 'auto',
+        background: '#172236',
+        color: '#eee',
       }}
     >
       <div style={{ padding: 10 }}>
         {!props.won && (
-          <div>
-            <h2 style={{ color: "green" }}>Hello.. Welcome to GeoCraft !</h2>
+          <div style={{ fontSize: 14 }}>
+            <h2 style={{ color: '#fff' }}>Welcome to GeoCraft !</h2>
             <p>
               This is a simple game I developed as part of understanding React
               and Mapbox GL
@@ -53,26 +55,36 @@ const Instructions = props => {
       </div>
       <div style={{ padding: 10 }}>
         {props.won && (
-          <h2 style={{ color: "green", marginTop: 0 }}>
+          <h2
+            style={{
+              marginTop: 0,
+              color: '#fff',
+              textShadow:
+                '0px 0px 2px rgba(255,255,255,1) , 0px 0px 5px rgba(255,255,255,1) , 0px 0px 10px rgba(255,255,255,1) , 0px 0px 15px #ff00de , 0px 0px 25px #ff00de , 0px 0px 35px #ff00de , 0px 0px 45px #ff00de',
+            }}
+          >
             Congrats! You did it..
           </h2>
         )}
         <button
           style={{
             height: 40,
-            float: "center",
-            width: "100%",
+            float: 'center',
+            width: '100%',
             marginBottom: 10,
             fontSize: 25,
-            color: "#fff",
-            background: "green",
-            border: "none",
+            color: '#fff',
+            background: 'transparent',
+            cursor: 'pointer',
+            border: 'none',
             borderRadius: 4,
-            textAlign: "center"
+            textShadow:
+              '0px 0px 2px rgba(255,255,255,1) , 0px 0px 5px rgba(255,255,255,1) , 0px 0px 10px rgba(255,255,255,1) , 0px 0px 15px #00ffff , 0px 0px 25px #00ffff , 0px 0px 35px #00ffff , 0px 0px 45px #00ffff',
+            textAlign: 'center',
           }}
           onClick={props.onStart}
         >
-          {props.won ? "Start again" : "Start"}
+          {props.won ? 'Start again' : 'Start'}
         </button>
       </div>
     </div>

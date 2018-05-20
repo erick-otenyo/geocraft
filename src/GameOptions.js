@@ -16,6 +16,8 @@ const Options = props => {
         bottom: 40,
         right: 'auto',
         background: '#172236',
+        fontFamily: "'Orbitron', sans-serif",
+        fontSize: 12,
       }}
     >
       <div
@@ -31,6 +33,9 @@ const Options = props => {
             background: 'green',
             border: 'none',
             borderRadius: 4,
+            fontFamily: "'Orbitron', sans-serif",
+            fontSize: 12,
+            cursor: 'pointer',
           }}
           onClick={props.onReset}
         >
@@ -40,9 +45,12 @@ const Options = props => {
           style={{
             padding: 5,
             color: '#fff',
-            background: 'red',
+            background: '#ff00de',
             border: 'none',
             borderRadius: 4,
+            fontFamily: "'Orbitron', sans-serif",
+            fontSize: 12,
+            cursor: 'pointer',
           }}
           onClick={props.onCancel}
         >
